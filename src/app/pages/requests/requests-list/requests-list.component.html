@@ -1,0 +1,120 @@
+<div class="row">
+    <div class="col-md-3">
+        <input type="number" class="form-control mb-3" placeholder="Id de solicitud" [(ngModel)]="filters.id_solicitud">
+    </div>
+    <div class="col-md-3">
+        <select type="text" class="form-control mb-3" placeholder="Filtrar por nombre" [(ngModel)]="filters.estado">
+            <option [value]=undefined>Todos los estados</option>
+            <option [value]="state.id" *ngFor="let state of states">{{state.name}}</option>
+        </select>
+    </div>
+    <div class="col-md-3">
+        <select type="text" class="form-control mb-3" placeholder="Filtrar por nombre"
+            [(ngModel)]="filters.id_certificado">
+            <option [value]=undefined>Todos los certificados</option>
+            <option [value]="state.id" *ngFor="let state of certificados">{{state.nombre_certificado}}</option>
+        </select>
+    </div>
+    <div class="col-md-2">
+        <button class="btn btn-primary" type="submit" style="width:100%" (click)="getRequestsList()">Filtrar</button>
+    </div>
+</div>
+<ngx-datatable class=" selection-cell no-shadow rounded-0" [columnMode]="'standard'" [headerHeight]="40"
+    [footerHeight]="0" [rowHeight]="40" [scrollbarV]="true" [scrollbarH]="true" [rows]="rows">
+
+
+    <ngx-datatable-column name="ID solicitud" prop="id_solicitud" [width]="100"></ngx-datatable-column>
+    <ngx-datatable-column name="Nombres" prop="nombres" [width]="330"></ngx-datatable-column>
+    <ngx-datatable-column name="Identificación" prop="identificacion" [width]="200"></ngx-datatable-column>
+    <ngx-datatable-column name="Certificado" prop="certificado" [width]="200"></ngx-datatable-column>
+    <ngx-datatable-column name="Estado" prop="estado" [width]="200"></ngx-datatable-column>
+    <ngx-datatable-column name="Fecha de solicitud" prop="fecha_solicitud" [width]="200"></ngx-datatable-column>
+
+    <ngx-datatable-column [width]="200">
+        <ng-template let-column="column" ngx-datatable-header-template>
+            <span class="datatable-header-cell-label">Documento</span>
+        </ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>
+            <button type="button" class="btn btn-outline-primary" (click)="open(content, row)" title="Datacredito"
+                style="height:30px" *ngIf="row.documentos && row.documentos.length > 0">Ver documentos</button>
+        </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column [width]="300">
+        <ng-template let-column="column" ngx-datatable-header-template>
+            <span class="datatable-header-cell-label">Accion</span>
+        </ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>
+
+            <button type="button" class="btn btn-outline-primary" (click)="open(contentValidate, row)"
+                title="Datacredito" style="height:30px; margin-right: 5px;">Validar</button>
+            <button type="button" class="btn btn btn-outline-info" (click)="generatePDFPazYSalvo(row)" title="Datacredito"
+                style="height:30px; margin-right: 5px;" *ngIf="row.id_certificado == 2">Generar</button>
+            <button type="button" class="btn btn btn-outline-info" (click)="generateCertificadoDeDeuda(row)" title="Datacredito"
+                style="height:30px;margin-right: 5px;" *ngIf="row.id_certificado == 1">Generar</button>
+
+
+            <button type="button" class="btn btn btn-outline-success" (click)="downloadPazYSalvo(row)" title="Datacredito"
+                style="height:30px;margin-right: 5px; " *ngIf="row.id_certificado == 2">Descargar</button>
+            <button type="button" class="btn btn btn-outline-success" (click)="downloadCertificadoDeDeuda(row)" title="Datacredito"
+                style="height:30px;" *ngIf="row.id_certificado == 1">Descargar</button>
+        </ng-template>
+    </ngx-datatable-column>
+
+</ngx-datatable>
+
+
+
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Validar documentos</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <table class="table">
+            <thead>
+                <tr>
+                    <td>Documentos</td>
+                    <td>Opciones</td>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr *ngFor="let doc of currentRow.documentos">
+                    <td>{{doc.nombre}}</td>
+                    <td>
+                        <button class="btn btn-primary" (click)="showFile(doc)">Ver</button>
+
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-primary" (click)="modal.dismiss('Cross click')">Cancelar</button>
+
+    </div>
+</ng-template>
+
+
+
+
+<ng-template #contentValidate let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Validar documentos</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        ¿ Estas seguro de validar este documento ?
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-primary" (click)="modal.dismiss('Cross click')">Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="validate()">Confirmar</button>
+    </div>
+</ng-template>
+
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }"></ngx-loading>

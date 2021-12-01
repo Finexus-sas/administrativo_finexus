@@ -1,0 +1,23 @@
+input.form-control {
+  border-radius: 90px;
+  padding: 1rem 1.5rem;
+}
+
+.btn {
+  border-radius: 90px;
+  padding: 1rem 1.5rem;
+  min-width: 120px;
+}
+
+.custom-logo {
+  width: 200px;
+  max-width: 90%;
+}
+
+.container-logo {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  margin-bottom: 2em;
+}

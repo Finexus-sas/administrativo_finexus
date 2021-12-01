@@ -1,0 +1,28 @@
+<input type="text" class="form-control mb-3" placeholder="Filtrar por numero de cedula" required
+    (keyup)='updateFilter($event)'>
+<ngx-datatable class=" selection-cell no-shadow rounded-0" [columnMode]="'standard'" [headerHeight]="40" [footerHeight]="0"
+    [rowHeight]="40" [scrollbarV]="true" [scrollbarH]="true" [rows]="rows" (scroll)="onScroll($event)">
+    <ngx-datatable-column [width]="130">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+            <button type="button" class="btn btn-outline-primary" (click)="onActivate(row.identificacion)"
+            style="border-radius: 50%; padding: 3px; width: 30px; height: 30px; margin-top: -2px; margin-right: 2px;" title="Datacredito">DC</button>
+
+            <button type="button" class="btn btn-outline-success" (click)="onActivateLegalCheck(row.identificacion)"
+            style="border-radius: 50%; padding: 3px; width: 30px; height: 30px; margin-top: -2px; margin-right: 2px;" title="LegalCheck">LC</button>
+
+            <button type="button" class="btn btn-outline-info" (click)="onActivateInfoComercial(row.identificacion)"
+                style="border-radius: 50%; padding: 3px; width: 30px; height: 30px; margin-top: -2px;" title="Información comercial">IC</button>
+        </ng-template>
+        <ng-template let-column="column" ngx-datatable-header-template>
+            <span class="datatable-header-cell-label">Acción</span>
+        </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Identificacion" prop="identificacion" [width]="130"></ngx-datatable-column>
+    <ngx-datatable-column name="Nombre completo" prop="nombre_completo" [width]="270"></ngx-datatable-column>
+    <ngx-datatable-column name="Genero" prop="genero" [width]="100"></ngx-datatable-column>
+    <ngx-datatable-column name="Asesor" prop="asesor" [width]="100"></ngx-datatable-column>
+    <ngx-datatable-column name="Fecha de consulta" prop="fecha_consulta" [width]="160"></ngx-datatable-column>
+
+
+    
+</ngx-datatable>

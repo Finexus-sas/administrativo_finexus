@@ -1,0 +1,22 @@
+.custom-checkbox {
+  padding-left: 1.2rem;
+}
+
+.custom-control-label {
+  border-color: 1px solid rgba(255, 255, 255, 0.54);
+  display: block !important;
+}
+
+.custom-checkbox .custom-control-input:checked~.custom-control-label {
+
+  &::before,
+  &::after {
+    color: rgba(255, 255, 255, 0.54);
+  }
+}
+
+
+.custom-logo {
+  max-width: 70%;
+  margin-bottom: 1em;
+}

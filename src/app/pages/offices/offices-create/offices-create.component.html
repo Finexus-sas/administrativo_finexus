@@ -1,0 +1,80 @@
+<div class="row">
+    <div class="col-lg-10 col-sm-12">
+        <div class="card">
+            <div class="card-header">
+                <b *ngIf="!office">Creación de pagadurias</b>
+                <b *ngIf="office">Edición de pagaduria</b>
+                <div *ngIf="!office">
+                    <button class="btn btn-outline-primary" (click)="open(changePassword)" *ngIf="isEditMode">Cambiar
+                        contraseña</button>
+                    <button class="btn btn-outline-primary" (click)="open(content)">Importar oficina</button>
+                </div>
+            </div>
+            <div class="card-body">
+                <!-- [formGroup]="form" -->
+                <form [formGroup]="form">
+                    <div class="row">
+
+                        <div class="col-md-6">
+                            <fieldset>
+                                <div class="form-group">
+                                    <label for="disabledSelect">Nombre</label>
+                                    <input type="text" class="form-control" formControlName="nombre_oficina"
+                                        name="nombre_oficina">
+                                </div>
+                            </fieldset>
+                        </div>
+
+                        <div class="col-md-6">
+                            <fieldset>
+                                <div class="form-group">
+                                    <label for="disabledSelect">Estado</label>
+                                    <select class="form-control" formControlName="estado" name="estado" id="estado">
+                                        <option value="1">Activo</option>
+                                        <option value="0">Inactivo</option>
+                                    </select>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                </form>
+
+                <button type="submit" class="btn btn-primary" style="margin-top:2em" (click)="saveOffice()"
+                    [disabled]="!form.valid">Guardar
+                    oficina</button>
+
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Importar oficina</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+
+        <div class="form-group">
+            <label>Importar oficina</label>
+            <div class="input-group">
+                <input placeholder="Filtrar por nombre de pagaduria" class="form-control" name="pagaduriaSearch"
+                    [(ngModel)]="pagaduriaSearch" (keyup)="filterPagadurias()" />
+            </div>
+        </div>
+        <ul class="list-group">
+            <li class="list-group-item" *ngFor="let item of offices" (click)="completeForm(item)">{{item.codigo}} -
+                {{item.nombre}}</li>
+        </ul>
+    </div>
+    <!-- <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+    </div> -->
+</ng-template>
+
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }"></ngx-loading>

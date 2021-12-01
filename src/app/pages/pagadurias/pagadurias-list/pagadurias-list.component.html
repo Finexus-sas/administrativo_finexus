@@ -1,0 +1,156 @@
+<div class="row">
+    <div class="col-md-10">
+        <input type="text" class="form-control mb-3" placeholder="Filtrar por razón social" required
+            (keyup)='updateFilter($event)'>
+
+    </div>
+    <div class="col-md-2">
+        <button class="btn btn-primary" type="submit" style="width:100%" routerLink="/pagadurias/create">Crear
+            pagaduria</button>
+    </div>
+</div>
+<ngx-datatable class=" selection-cell no-shadow rounded-0" [columnMode]="'standard'" [headerHeight]="40"
+    [footerHeight]="0" [rowHeight]="40" [scrollbarV]="true" [scrollbarH]="true" [rows]="rows">
+
+    <ngx-datatable-column [width]="130">
+        <ng-template let-column="column" ngx-datatable-header-template>
+            <span class="datatable-header-cell-label">Acción</span>
+        </ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>
+            <button type="button" class="btn btn-outline-primary" (click)="goToEdit(row)"
+                title="Datacredito" style="height:30px">Editar</button>
+
+        </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="NIT" prop="nit" [width]="200"></ngx-datatable-column>
+    <ngx-datatable-column name="Razon social" prop="razon_social" [width]="600"></ngx-datatable-column>
+    <ngx-datatable-column name="Email" prop="email" [width]="200"></ngx-datatable-column>
+    <ngx-datatable-column name="Telefono" prop="Telefono" [width]="200"></ngx-datatable-column>
+    <ngx-datatable-column [width]="100">
+        <ng-template let-column="column" ngx-datatable-header-template>
+            <span class="datatable-header-cell-label">Estado</span>
+        </ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>
+            <span *ngIf="row.estado == '1'" class="badge badge-success">Activo</span>
+            <span *ngIf="row.estado == '0'" class="badge badge-danger">Inactivo</span>
+        </ng-template>
+    </ngx-datatable-column>
+</ngx-datatable>
+
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Crear pagaduria</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+
+        <form [formGroup]="form">
+            <div class="row">
+                <div class="col-md-6">
+                    <fieldset>
+                        <div class="form-group">
+                            <label for="disabledSelect">NIT</label>
+                            <input type="text" class="form-control" formControlName="nit" name="nit">
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="col-md-6">
+                    <fieldset>
+                        <div class="form-group">
+                            <label for="disabledSelect">Nombre</label>
+                            <input type="text" class="form-control" formControlName="nombre_corto" name="nombre_corto">
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-6">
+                    <fieldset>
+                        <div class="form-group">
+                            <label for="disabledSelect">Email</label>
+                            <input type="email" class="form-control" formControlName="email" name="email">
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="col-md-6">
+                    <fieldset>
+                        <div class="form-group">
+                            <label for="disabledSelect">Telefono</label>
+                            <input type="text" class="form-control" formControlName="telefono" name="telefono">
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <fieldset>
+                        <div class="form-group">
+                            <label for="disabledSelect">Departamento</label>
+                            <select class="form-control" formControlName="departamento" name="departamento"
+                                id="departamento" (change)="loadCitys()">
+                                <option value="">Selecciona departamento</option>
+                                <option value="{{item.cod_departamento}}" *ngFor="let item of dptos">
+                                    {{item.departamento}}</option>
+                            </select>
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="col-md-6">
+                    <fieldset>
+                        <div class="form-group">
+                            <label for="disabledSelect">Municipio</label>
+                            <select class="form-control" formControlName="municipio" name="municipio" id="municipio">
+                                <option value="">Selecciona municipio</option>
+                                <option value="{{item.cod_municipio}}" *ngFor="let item of citys">{{item.municipio}}</option>
+                            </select>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <fieldset>
+                        <div class="form-group">
+                            <label for="disabledSelect">Dirección</label>
+                            <input type="text" class="form-control" formControlName="direccion" name="direccion">
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="col-md-6">
+                    <fieldset>
+                        <div class="form-group">
+                            <label for="disabledSelect">Razon social</label>
+                            <input type="text" class="form-control" formControlName="razon_social" name="razon_social">
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <fieldset>
+                        <div class="form-group">
+                            <label for="disabledSelect">Estado</label>
+                            <select class="form-control" formControlName="estado" name="estado" id="estado">
+                                <option value="1">Activo</option>
+                                <option value="0">Inactivo</option>
+                            </select>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-primary" (click)="savePagaduria()" [disabled]="!form.valid">Guardar pagaduria</button>
+    </div>
+</ng-template>
+
+<!-- <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }"></ngx-loading> -->

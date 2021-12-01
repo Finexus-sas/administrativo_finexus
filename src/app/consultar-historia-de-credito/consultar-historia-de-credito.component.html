@@ -1,0 +1,52 @@
+<div class="row">
+  <div class="col-lg-6">
+    <div class="card">
+      <div class="card-header">
+        <b>Información personal del cliente</b>
+      </div>
+      <div class="card-body">
+        <p>Disculpa, pero estás intentando
+          realizar una solicitud sin validación de identidad, recuerda diligenciar el formato de autorización de
+          consulta.
+        </p>
+        <br>
+        <form [formGroup]="form">
+          <fieldset>
+            <div class="form-group">
+              <label for="disabledSelect">Tipo de identificación</label>
+              <select id="disabledSelect" class="form-control" formControlName="tipo_identificacion"
+                name="tipo_identificacion">
+                <option value="1">Cedula de ciudadania</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="disabledTextInput">Numero de identificación</label>
+              <input type="text" id="disabledTextInput" class="form-control"
+                placeholder="Digita el numero de identificación" formControlName="identificacion" name="identificacion">
+            </div>
+
+            <div class="form-group">
+              <label for="disabledTextInput">Primer apellido</label>
+              <input type="text" id="disabledTextInput" class="form-control"
+                placeholder="Digita el primer apellido del cliente" formControlName="primer_apellido"
+                name="primer_apellido">
+            </div>
+
+
+          </fieldset>
+        </form>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" [(ngModel)]="valid">He diligenciado la autorizacion de consulta a
+            centrales de riesgo
+          </label>
+        </div>
+        <button type="submit" class="btn btn-primary" [disabled]="!(form.valid) || !valid" (click)="getHistoryCredit()">Realizar consulta</button>
+
+
+      </div>
+    </div>
+  </div>
+
+</div>
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" ></ngx-loading>

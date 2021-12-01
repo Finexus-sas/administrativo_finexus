@@ -1,0 +1,22 @@
+.card-header{
+    display:flex;
+    justify-content:space-between;
+
+    div{
+        button:last-child{
+            margin-left: 10px;
+        }
+    }
+}
+
+.list-group{
+    max-height: 600px;
+    overflow-y: auto;
+
+    li{
+      &:hover{
+          background:#FFB8CF;
+          color:white;cursor: pointer;
+      }  
+    }
+}

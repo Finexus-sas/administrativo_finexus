@@ -1,0 +1,251 @@
+<div class="row">
+    <div class="col-lg-10 col-sm-12">
+        <div class="card">
+            <div class="card-header">
+                <b *ngIf="!isEditMode">Creación de usuarios</b>
+                <b *ngIf="isEditMode">Edición de usuarios</b>
+                <div>
+                    <button class="btn btn-outline-primary" routerLink="/users">Ver lista de usuario</button>
+                    <button class="btn btn-outline-primary" (click)="open(changePassword)" *ngIf="isEditMode">Cambiar
+                        contraseña</button>
+                    <button class="btn btn-outline-primary" (click)="open(content)">Importar usuario</button>
+                </div>
+            </div>
+            <div class="card-body">
+                <!-- [formGroup]="form" -->
+                <form [formGroup]="form">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <fieldset>
+                                <div class="form-group">
+                                    <label for="disabledSelect">Nombre <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" formControlName="nombre" name="nombre">
+                                    <span class="text-danger"
+                                        *ngIf="(form.controls.nombre.touched ) && form.controls.nombre.errors?.required">
+                                        El nombre es requerido
+                                    </span>
+                                </div>
+                            </fieldset>
+                        </div>
+                        <div class="col-md-6">
+                            <fieldset>
+                                <div class="form-group">
+                                    <label for="disabledSelect">Apellido <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" formControlName="apellidos"
+                                        name="apellidos">
+                                    <span class="text-danger"
+                                        *ngIf="(form.controls.apellidos.touched ) && form.controls.apellidos.errors?.required">
+                                        El apellido es requerido
+                                    </span>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <fieldset>
+                                <div class="form-group">
+                                    <label for="disabledSelect">Email <span class="text-danger">*</span></label>
+                                    <input type="email" class="form-control" formControlName="email" name="email">
+                                    <span class="text-danger"
+                                        *ngIf="(form.controls.email.touched ) && form.controls.email.errors?.required">
+                                        El email es requerido
+                                    </span>
+                                    <span class="text-danger"
+                                        *ngIf="(form.controls.email.touched ) && form.controls.email.errors?.email">
+                                        Email invalido
+                                    </span>
+                                </div>
+                            </fieldset>
+                        </div>
+                        <div class="col-md-6">
+                            <fieldset>
+                                <div class="form-group">
+                                    <label for="disabledSelect">Celular <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" formControlName="celular" name="celular"
+                                        maxlength="10" minlength="10" (keyup)='noLetters(form.controls.celular)'>
+                                    <span class="text-danger"
+                                        *ngIf="(form.controls.celular.touched ) && form.controls.celular.errors?.required">
+                                        El celular es requerido
+                                    </span>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <fieldset>
+                                <div class="form-group">
+                                    <label for="disabledSelect">Telefono</label>
+                                    <input type="text" class="form-control" formControlName="telefono" name="telefono"
+                                        maxlength="7" minlength="7" (keyup)='noLetters(form.controls.telefono)'>
+
+                                </div>
+                            </fieldset>
+                        </div>
+                        <div class="col-md-6">
+                            <fieldset>
+                                <div class="form-group">
+                                    <label for="disabledSelect">Estado <span class="text-danger">*</span></label>
+                                    <select class="form-control" formControlName="estado" name="estado" id="estado">
+                                        <option value="1">Activo</option>
+                                        <option value="0">Inactivo</option>
+                                    </select>
+                                    <span class="text-danger"
+                                        *ngIf="(form.controls.estado.touched ) && form.controls.estado.errors?.required">
+                                        El estado es requerido
+                                    </span>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <fieldset>
+                                <div class="form-group">
+                                    <label for="disabledSelect">Usuario <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" formControlName="username" name="username"
+                                        maxlength="250">
+                                    <span class="text-danger"
+                                        *ngIf="(form.controls.username.touched ) && form.controls.username.errors?.required">
+                                        El usuario es requerido
+                                    </span>
+                                </div>
+                            </fieldset>
+                        </div>
+
+                        <div class="col-md-6">
+                            <fieldset>
+                                <div class="form-group">
+                                    <label for="disabledSelect">Oficina <span class="text-danger">*</span></label>
+                                    <select class="form-control" formControlName="id_oficina" name="id_oficina"
+                                        id="id_oficina">
+                                        <option value="">Seleccione oficina</option>
+                                        <option value="{{item.id}}" *ngFor="let item of officies">{{item.oficina}}
+                                        </option>
+                                    </select>
+                                    <span class="text-danger"
+                                        *ngIf="(form.controls.id_oficina.touched ) && form.controls.id_oficina.errors?.required">
+                                        La oficina es requerida
+                                    </span>
+                                </div>
+                            </fieldset>
+                        </div>
+
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <fieldset>
+                                <div class="form-group">
+                                    <label for="disabledSelect">Perfil <span class="text-danger">*</span></label>
+                                    <select class="form-control" formControlName="id_perfil" name="id_perfil"
+                                        id="id_perfil">
+                                        <option value="">Seleccione un perfil</option>
+                                        <option value="{{item.id}}" *ngFor="let item of profiles">{{item.perfil}}
+                                        </option>
+                                    </select>
+                                    <span class="text-danger"
+                                        *ngIf="(form.controls.id_perfil.touched ) && form.controls.id_perfil.errors?.required">
+                                        El perfil es requerido
+                                    </span>
+                                </div>
+                            </fieldset>
+                        </div>
+
+
+                        <div class="col-md-6" *ngIf="!isEditMode">
+                            <fieldset>
+                                <div class="form-group">
+                                    <label for="disabledSelect">Contraseña <span class="text-danger">*</span></label>
+                                    <input type="password" class="form-control" formControlName="password"
+                                        name="password">
+
+                                    <span class="text-danger"
+                                        *ngIf="(form.controls.id_perfil.touched ) && form.controls.id_perfil.errors?.required">
+                                        El perfil es requerido
+                                    </span>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+
+                </form>
+                <button type="submit" class="btn btn-primary" style="margin-top:2em" (click)="saveUser()"
+                    [disabled]="!form.valid">Guardar
+                    usuario</button>
+
+
+            </div>
+        </div>
+    </div>
+
+</div>
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Importar usuario</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+
+        <div class="form-group">
+            <label>Importar usuario</label>
+            <div class="input-group">
+                <input placeholder="Filtra por el nombre del usuario" class="form-control" name="userSearch"
+                    [(ngModel)]="userSearch" (keyup)="filterUserSeas()" />
+            </div>
+        </div>
+        <ul class="list-group">
+            <li class="list-group-item" *ngFor="let item of usersSeas" (click)="completeForm(item)">{{item.login}} ({{nameCapitalized(item.nombre)}})</li>
+        </ul>
+    </div>
+    <!-- <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+    </div> -->
+</ng-template>
+
+
+
+<ng-template #changePassword let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Cambiar contraseña</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+
+        <div class="form-group">
+            <label>Nueva contraseña</label>
+            <div class="input-group">
+                <input type="password" class="form-control" name="password" id="password" [(ngModel)]="password" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Validar contraseña</label>
+            <div class="input-group">
+                <input type="password" class="form-control" name="passwordValidate" id="passwordValidate"
+                    [(ngModel)]="passwordValidate" />
+            </div>
+        </div>
+        <span *ngIf="(password != passwordValidate) && (password!='' && passwordValidate!='')" style="color:red">
+            Las contraseñas no son iguales
+        </span><br>
+        <span *ngIf="validateLengthPassword(password) && (password!='' && passwordValidate!='')" style="color:red">
+            La contraseña es muy corta
+        </span>
+    </div>
+    <div class="modal-footer">
+        <button (click)="changePasswordUser()" type="button" class="btn btn-primary"
+            [disabled]="(password != passwordValidate) || validateLengthPassword(password)">Cambiar contraseña</button>
+
+    </div>
+</ng-template>
+
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }"></ngx-loading>
